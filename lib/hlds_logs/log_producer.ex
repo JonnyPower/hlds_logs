@@ -50,6 +50,7 @@ defmodule HLDSLogs.LogProducer do
   """
   use GenStage
 
+  @global_name_prefix "HLDSLogs.LogProducer:"
   @logaddress_add_command "logaddress_add"
 
   alias HLDSRcon.ServerInfo
@@ -67,7 +68,13 @@ defmodule HLDSLogs.LogProducer do
   """
   @spec start_link({%HLDSRcon.ServerInfo{}, %HLDSLogs.ListenInfo{}}) :: GenServer.on_start()
   def start_link({%ServerInfo{} = server_info, %ListenInfo{} = listen_info}) do
-    GenStage.start_link(__MODULE__, {server_info, listen_info}, name: __MODULE__)
+    GenStage.start_link(
+      __MODULE__,
+      {server_info, listen_info},
+      name: {
+        :global, get_global_name(server_info, listen_info)
+      }
+    )
   end
 
   @doc false
@@ -129,6 +136,10 @@ defmodule HLDSLogs.LogProducer do
       @logaddress_add_command <> " " <> listen_host <> " " <> Integer.to_string(assigned_port)
     )
     :ok
+  end
+
+  defp get_global_name(%ServerInfo{} = server_info, %ListenInfo{} = listen_info) do
+    @global_name_prefix <> "from:" <> server_info.host <> ":" <> Integer.to_string(server_info.port) <> ":to:" <> listen_info.host <> ":" <> Integer.to_string(listen_info.port)
   end
 
 end
