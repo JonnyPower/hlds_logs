@@ -6,6 +6,27 @@ defmodule HLDSLogs do
   Uses a `DynamicSupervisor` for creating producers. If you want to manage the producer supervision yourself you can use
   the `HLDSLogs.LogProducer` module directly, however it will still call `HLDSRcon.connect/2` which makes use of another
   `DynamicSupervisor`.
+
+  ## Quickstart
+
+  If you are running a HLDS server and want to consume log entries from the game server, you could connect and consume by
+  calling `HLDSLogs.produce_logs/3`;
+
+  ```
+  HLDSLogs.produce_logs(
+    %HLDSRcon.ServerInfo{
+      host: "127.0.0.1",
+      port: 27015
+    },
+    %HLDSLogs.ListenInfo{
+      host: "127.0.0.1"
+    },
+    consumer_pid
+  )
+  ```
+
+  Your consumer would then begin receiving `%HLDSLogs.LogEntry` structs as events, for you to carry out processing as you wish.
+
   """
 
   alias HLDSRcon.ServerInfo
