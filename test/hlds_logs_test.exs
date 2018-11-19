@@ -21,7 +21,7 @@ defmodule HLDSLogsTest do
 
   test "consumer subscribed", context do
     {:ok, dummy_consumer} = TestConsumer.start_link(self())
-    HLDSLogs.produce_logs(
+    {:ok, producer_pid} = HLDSLogs.produce_logs(
       %HLDSRcon.ServerInfo{
         host: "127.0.0.1",
         port: context[:mock_port]
@@ -35,6 +35,32 @@ defmodule HLDSLogsTest do
       :subscribed -> nil
     after 0 -> flunk "was not subscribed"
     end
+    DynamicSupervisor.terminate_child(HLDSLogs.ProducerSupervisor, producer_pid)
+  end
+
+  test "produce many", context do
+    {:ok, other_mock_pid} = MockHLDSServer.start_link()
+    other_mock_port = GenServer.call(other_mock_pid, :get_port)
+
+    {:ok, _} = HLDSLogs.produce_logs(
+      %HLDSRcon.ServerInfo{
+        host: "127.0.0.1",
+        port: context[:mock_port]
+      },
+      %HLDSLogs.ListenInfo{
+        host: "127.0.0.1"
+      }
+    )
+
+    {:ok, _} = HLDSLogs.produce_logs(
+      %HLDSRcon.ServerInfo{
+        host: "127.0.0.1",
+        port: other_mock_port
+      },
+      %HLDSLogs.ListenInfo{
+        host: "127.0.0.1"
+      }
+    )
   end
 
 end
