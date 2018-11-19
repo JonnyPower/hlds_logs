@@ -1,21 +1,9 @@
 # HLDSLogs
 
-**TODO: Add description**
+  [![Build Status](https://travis-ci.org/JonnyPower/hlds_logs.svg?branch=master)](https://travis-ci.org/JonnyPower/hlds_logs)
+  [![Hex.pm](https://img.shields.io/hexpm/v/hlds_logs.svg)](https://hex.pm/packages/hlds_logs)
 
-## Installation
+  A library for connecting to Half-Life Dedicated Servers (a.k.a "HLDS") and using GenStage to produce structured
+  log entries sent from the connected HLDS server.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `hlds_logs` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:hlds_logs, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/hlds_logs](https://hexdocs.pm/hlds_logs).
-
+  (Not released on Hex yet.)
