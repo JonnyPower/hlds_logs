@@ -23,7 +23,7 @@ defmodule HLDSLogs.LogEntry do
   @capture_date_parts ~r/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/
 
   @doc """
-  Create a `HLDSLogs.LogEntry` struct from a raw string recived by a HLDS server
+  Create a `HLDSLogs.LogEntry` struct from a raw string received by a HLDS server
   """
   @spec from(String.t()) :: %HLDSLogs.LogEntry{} | nil
   def from(raw_log_entry) when is_binary(raw_log_entry) do

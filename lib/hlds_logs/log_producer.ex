@@ -55,7 +55,6 @@ defmodule HLDSLogs.LogProducer do
   alias HLDSRcon.ServerInfo
   alias HLDSLogs.ListenInfo
 
-
   @doc """
     Creates a producer that will connect to the server.
 
@@ -93,7 +92,9 @@ defmodule HLDSLogs.LogProducer do
     }
   end
 
-  @doc false
+  @doc """
+    Get the UDP port used by the processes socket to recieve log messages. Useful to determine port when OS assigned.
+  """
   def handle_call(:get_port, _from, state) do
     {:reply, state.assigned_port, [], state}
   end
