@@ -92,7 +92,7 @@ defmodule HLDSLogs.LogProducerTest do
       {:log, %HLDSLogs.LogEntry{} = log_entry} ->
         assert_log_entry(log_entry)
         await_logs(seen_count + 1)
-    after 1000 ->
+    after 5_000 ->
       assert seen_count == @sample_log_lines
     end
   end
